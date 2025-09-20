@@ -8,8 +8,13 @@ import mugrade
 import itertools
 
 
-_DEVICES = [ndl.cpu(), pytest.param(ndl.cuda(),
-    marks=pytest.mark.skipif(not ndl.cuda().enabled(), reason="No GPU"))]
+_DEVICES = [
+    ndl.cpu(),
+    pytest.param(ndl.cuda(),
+                 marks=pytest.mark.skipif(not ndl.cuda().enabled(), reason="No GPU")),
+    pytest.param(ndl.metal(),
+                 marks=pytest.mark.skipif(not ndl.metal().enabled(), reason="No GPU")),
+]
 
 def backward_check(f, *args, **kwargs):
     eps = 1e-3
@@ -434,7 +439,7 @@ def test_op_conv(Z_shape, W_shape, stride, padding, backward, device):
     Ztch.requires_grad=True
     Wtch = torch.Tensor(_W).float()
     Wtch.requires_grad=True
-    out = torch.nn.functional.conv2d(Ztch.permute(0, 3, 1, 2), Wtch.permute(3, 2, 0, 1), padding=padding, stride=stride)
+    out = torch.nn.functional.conv2d(Ztch.permute(0, 3, 1, 2).contiguous(), Wtch.permute(3, 2, 0, 1).contiguous(), padding=padding, stride=stride)
     out2 = out.sum()
     if backward:
         out2.backward()
@@ -480,12 +485,15 @@ def one_iter_of_cifar10_training(dataloader, model, niter=1, loss_fn=ndl.nn.Soft
         out = model(X)
         correct += np.sum(np.argmax(out.numpy(), axis=1) == y.numpy())
         loss = loss_fn(out, y)
+        # print(loss.device)
         total_loss += loss.data.numpy() * y.shape[0]
         loss.backward()
         opt.step()
+        print(correct/(y.shape[0]*i), total_loss/(y.shape[0]*i))
         if i >= niter:
             break
         i += 1
+        
     return correct/(y.shape[0]*niter), total_loss/(y.shape[0]*niter)
 
 
@@ -535,6 +543,7 @@ def submit_conv_forward():
     MugradeSubmit(DoConvOp(2, 1, 2, 4, k=3, stride=1, padding=0))
     MugradeSubmit(DoConvOp(3, 1, 2, 4, k=3, stride=1, padding=2))
     MugradeSubmit(DoConvOp(1, 1, 3, 6, k=5, stride=2, padding=2))
+
 
     MugradeSubmit(DoConvLayer(3, 2, 4, 6, k=3, stride=1, bias=True))
     MugradeSubmit(DoConvLayer(3, 4, 2, 6, k=3, stride=1, bias=True))

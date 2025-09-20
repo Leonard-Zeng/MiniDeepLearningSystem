@@ -315,7 +315,7 @@ class Tensor(Value):
 
     def __pow__(self, other):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return needle.ops.PowerScalar(other)(self)
         ### END YOUR SOLUTION
 
     def __sub__(self, other):
@@ -377,7 +377,27 @@ def compute_gradient_of_variables(output_tensor, out_grad):
     reverse_topo_order = list(reversed(find_topo_sort([output_tensor])))
 
     ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
+    for node in reverse_topo_order:
+        adjoint = node_to_output_grads_list[node][0]
+        for i in range(1, len(node_to_output_grads_list[node])):
+            adjoint = needle.add(adjoint, node_to_output_grads_list[node][i])
+        node.grad = adjoint
+        if node.is_leaf():
+            continue
+
+        back_grad = node.op.gradient(adjoint, node)
+
+        if type(back_grad) == tuple:
+            back_grad = [i for i in back_grad]
+        else:
+            back_grad = [back_grad]
+        for idx in range(len(node.inputs)):
+            in_node = node.inputs[idx]
+            in_grad = back_grad[idx]
+            if node_to_output_grads_list.__contains__(in_node):
+                node_to_output_grads_list[in_node].append(in_grad)
+            else:
+                node_to_output_grads_list[in_node] = [in_grad]
     ### END YOUR SOLUTION
 
 
@@ -390,14 +410,24 @@ def find_topo_sort(node_list: List[Value]) -> List[Value]:
     sort.
     """
     ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
+    visited = set()
+    topo_order = []
+    for node in node_list:
+        topo_sort_dfs(node, visited, topo_order)
+    return topo_order
     ### END YOUR SOLUTION
 
 
 def topo_sort_dfs(node, visited, topo_order):
     """Post-order DFS"""
     ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
+    if visited.__contains__(node):
+        return
+    
+    visited.add(node)
+    for child in node.inputs:
+        topo_sort_dfs(child, visited, topo_order)
+    topo_order.append(node)
     ### END YOUR SOLUTION
 
 

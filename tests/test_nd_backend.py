@@ -9,6 +9,8 @@ import torch
 import needle as ndl
 from needle import backend_ndarray as nd
 
+# A = ndl.Tensor(_A.astype(np.float32), device=ndl.metal())
+
 np.random.seed(1)
 
 def backward_check(f, *args, **kwargs):
@@ -26,16 +28,23 @@ def backward_check(f, *args, **kwargs):
             args[i].realize_cached_data().flat[j] += eps
             numerical_grad[i].flat[j] = (f1 - f2) / (2 * eps)
     backward_grad = out.op.gradient_as_tuple(ndl.Tensor(c, device=args[0].device), out)
+    # print(backward_grad[i].numpy())
+    # print(numerical_grad[i])
     error = sum(
         np.linalg.norm(backward_grad[i].numpy() - numerical_grad[i])
         for i in range(len(args))
     )
-    assert error < 4.2e-1
+    assert error < 1.2e-1
     return [g.numpy() for g in backward_grad]
 
 
-_DEVICES = [ndl.cpu(), pytest.param(ndl.cuda(),
-    marks=pytest.mark.skipif(not ndl.cuda().enabled(), reason="No GPU"))]
+_DEVICES = [
+    ndl.cpu(),
+    pytest.param(ndl.cuda(),
+                 marks=pytest.mark.skipif(not ndl.cuda().enabled(), reason="No GPU")),
+    pytest.param(ndl.metal(),
+                 marks=pytest.mark.skipif(not ndl.metal().enabled(), reason="No GPU")),
+]
 
 
 EWISE_OPS = {
@@ -47,7 +56,7 @@ EWISE_OP_NAMES = [k for k in EWISE_OPS]
 GENERAL_SHAPES = [(1, 1, 1), (4, 5, 6)]
 @pytest.mark.parametrize("fn", EWISE_OP_FNS, ids=EWISE_OP_NAMES)
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_ewise_fn(fn, shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     _B = np.random.randn(*shape).astype(np.float32)
@@ -64,7 +73,7 @@ SCALAR_OP_FNS = [SCALAR_OPS[k] for k in SCALAR_OPS]
 SCALAR_OP_NAMES = [k for k in SCALAR_OPS]
 @pytest.mark.parametrize("fn", SCALAR_OP_FNS, ids=SCALAR_OP_NAMES)
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_scalar_fn(fn, shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     _B = np.random.randn(1).astype(np.float32).item()
@@ -84,7 +93,7 @@ MATMUL_DIMS = [(16, 16, 16),
     (74, 73, 72),
     (128, 128, 128)]
 @pytest.mark.parametrize("m,n,p", MATMUL_DIMS)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_matmul(m, n, p, device):
     _A = np.random.randn(m, n).astype(np.float32)
     _B = np.random.randn(n, p).astype(np.float32)
@@ -94,7 +103,7 @@ def test_matmul(m, n, p, device):
 
 
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_power(shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     _B = np.random.randint(1)
@@ -103,7 +112,7 @@ def test_power(shape, device):
 
 
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_log(shape, device):
     _A = np.random.randn(*shape).astype(np.float32) + 5.
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -111,7 +120,7 @@ def test_log(shape, device):
 
 
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_exp(shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -119,7 +128,7 @@ def test_exp(shape, device):
 
 
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_relu(shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -127,7 +136,7 @@ def test_relu(shape, device):
 
 
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_tanh(shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -135,7 +144,7 @@ def test_tanh(shape, device):
 
 
 @pytest.mark.parametrize("shape", GENERAL_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_tanh_backward(shape, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -146,7 +155,7 @@ STACK_PARAMETERS = [((5, 5), 0, 1),
     ((5, 5), 0, 2),
     ((1,5,7), 2, 5)]
 @pytest.mark.parametrize("shape, axis, l", STACK_PARAMETERS)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_stack(shape, axis, l, device):
     _A = [np.random.randn(*shape).astype(np.float32) for i in range(l)]
     A = [ndl.Tensor(nd.array(_A[i]), device=device) for i in range(l)]
@@ -157,7 +166,7 @@ def test_stack(shape, axis, l, device):
 
 
 @pytest.mark.parametrize("shape, axis, l", STACK_PARAMETERS)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_stack_backward(shape, axis, l, device):
     _A = [np.random.randn(*shape).astype(np.float32) for i in range(l)]
     A = [ndl.Tensor(nd.array(_A[i]), device=device) for i in range(l)]
@@ -176,7 +185,7 @@ SUMMATION_PARAMETERS = [((1, 1, 1), None),
     ((8, 3, 2), 2)
 ]
 @pytest.mark.parametrize("shape, axes", SUMMATION_PARAMETERS)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_summation(shape, axes, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -184,7 +193,7 @@ def test_summation(shape, axes, device):
 
 
 @pytest.mark.parametrize("shape, axes", SUMMATION_PARAMETERS)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_summation_backward(shape, axes, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -194,7 +203,7 @@ def test_summation_backward(shape, axes, device):
 BROADCAST_SHAPES = [((1, 1, 1), (3, 3, 3)),
     ((4, 1, 6), (4, 3, 6))]
 @pytest.mark.parametrize("shape,shape_to", BROADCAST_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_broadcast_to(shape, shape_to, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -204,7 +213,7 @@ def test_broadcast_to(shape, shape_to, device):
 RESHAPE_SHAPES = [((1, 1, 1), (1,)),
     ((4, 1, 6), (6, 4, 1))]
 @pytest.mark.parametrize("shape,shape_to", RESHAPE_SHAPES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_reshape(shape, shape_to, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -215,7 +224,7 @@ TRANSPOSE_SHAPES = [(1, 1, 1), (4, 5, 6)]
 TRANSPOSE_AXES = [(0, 1), (0, 2), None]
 @pytest.mark.parametrize("shape", TRANSPOSE_SHAPES)
 @pytest.mark.parametrize("axes", TRANSPOSE_AXES)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_transpose(shape, axes, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)
@@ -227,7 +236,7 @@ def test_transpose(shape, axes, device):
 
 
 @pytest.mark.parametrize("shape, axes", SUMMATION_PARAMETERS)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_logsumexp(shape, axes, device):
     _A = np.random.randn(*shape).astype(np.float32)
     A = ndl.Tensor(nd.array(_A), device=device)

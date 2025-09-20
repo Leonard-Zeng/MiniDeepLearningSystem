@@ -5,6 +5,70 @@ import pickle
 from typing import Iterator, Optional, List, Sized, Union, Iterable, Any
 from needle import backend_ndarray as nd
 
+def parse_mnist(image_filename, label_filename):
+    """ Read an images and labels file in MNIST format.  See this page:
+    http://yann.lecun.com/exdb/mnist/ for a description of the file format.
+
+    Args:
+        image_filename (str): name of gzipped images file in MNIST format
+        label_filename (str): name of gzipped labels file in MNIST format
+
+    Returns:
+        Tuple (X,y):
+            X (numpy.ndarray[np.float32]): 2D numpy array containing the loaded 
+                data.  The dimensionality of the data should be 
+                (num_examples x input_dim) where 'input_dim' is the full 
+                dimension of the data, e.g., since MNIST images are 28x28, it 
+                will be 784.  Values should be of type np.float32, and the data 
+                should be normalized to have a minimum value of 0.0 and a 
+                maximum value of 1.0. The normalization should be applied uniformly
+                across the whole dataset, _not_ individual images.
+
+            y (numpy.ndarray[dtype=np.uint8]): 1D numpy array containing the
+                labels of the examples.  Values should be of type np.uint8 and
+                for MNIST will contain the values 0-9.
+    """
+    ### BEGIN YOUR CODE
+    import gzip
+    import struct
+    # pass
+    image_files = gzip.open(image_filename).read()
+    label_files = gzip.open(label_filename).read()
+    
+    # skip the magic number int32 => 4 bytes
+    n_imgs = struct.unpack('i', image_files[4:8][::-1])[0]
+    height = struct.unpack('i', image_files[8:12][::-1])[0]
+    weight = struct.unpack('i', image_files[12:16][::-1])[0]
+
+    # skip the magic number int32 => 4 bytes
+    n_labels = struct.unpack('i', label_files[4:8][::-1])[0]
+    assert n_imgs == n_labels
+    n = n_imgs
+    
+    X = np.empty(shape=(n , height*weight), dtype=np.float32)
+    y = np.empty(shape=(n), dtype=np.uint8)
+
+
+    _min = 255
+    _max = 0
+    for _item in range(n):
+        _label_idx = _item+8
+        _label = struct.unpack('B', label_files[_label_idx: _label_idx+1][::-1])[0]
+        y[_item] = _label
+
+        for _pos in range(height*weight):
+            _pixel_idx = _item*(height*weight) + 16 + _pos
+            _pixel = struct.unpack('B', image_files[_pixel_idx: _pixel_idx+1][::-1])[0]
+            X[_item, _pos] = _pixel
+            if _pixel < _min:
+                _min = float(_pixel)
+            if _pixel >_max:
+                _max = float(_pixel)
+
+    X = (X-_min)/(_max-_min) # normalizing X as whole dataset
+
+    return X, y
+    ### END YOUR CODE
 
 class Transform:
     def __call__(self, x):
@@ -26,7 +90,10 @@ class RandomFlipHorizontal(Transform):
         """
         flip_img = np.random.rand() < self.p
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        if flip_img:
+            return img[:, ::-1, :]
+        else:
+            return img
         ### END YOUR SOLUTION
 
 
@@ -46,7 +113,14 @@ class RandomCrop(Transform):
             low=-self.padding, high=self.padding + 1, size=2
         )
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        H, W, _ = img.shape
+        pad_img = np.pad(img,
+                         pad_width=
+                            ((self.padding, self.padding), (self.padding, self.padding), (0, 0)),
+                         mode='constant')
+        shift_x, shift_y = shift_x+self.padding, shift_y+self.padding
+        pad_img = pad_img[shift_x:shift_x+H, shift_y:shift_y+W, :]
+        return pad_img
         ### END YOUR SOLUTION
 
 
@@ -94,11 +168,15 @@ class DataLoader:
         dataset: Dataset,
         batch_size: Optional[int] = 1,
         shuffle: bool = False,
+        device=None,
+        dtype="float32"
     ):
 
         self.dataset = dataset
         self.shuffle = shuffle
         self.batch_size = batch_size
+        self.device = device
+        self.dtype = dtype
         if not self.shuffle:
             self.ordering = np.array_split(
                 np.arange(len(dataset)), range(batch_size, len(dataset), batch_size)
@@ -106,13 +184,44 @@ class DataLoader:
 
     def __iter__(self):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        self.index = 0
+        if self.shuffle:
+            self.ordering = np.array_split(
+                np.random.permutation(len(self.dataset)), 
+                range(self.batch_size, 
+                      len(self.dataset), 
+                      self.batch_size
+                )
+            )
         ### END YOUR SOLUTION
         return self
 
     def __next__(self):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        if self.index < len(self.ordering):
+            mini_batch_indices = self.ordering[self.index]
+            mini_batches = []
+
+            for index in mini_batch_indices:
+                items = self.dataset.__getitem__(index)
+                if not len(items) == len(mini_batches):
+                    for i in range(len(items)):
+                        mini_batches.append([items[i]])
+                else:
+                    for i in range(len(items)):
+                        mini_batches[i].append(items[i])
+
+            for idx in range(len(mini_batches)):
+                mini_batch_items = mini_batches[idx]
+                if len(mini_batch_items[0].shape) > 1:
+                    mini_batches[idx] = Tensor(np.stack(mini_batch_items, axis=0), device=self.device, dtype=self.dtype)
+                else:
+                    mini_batches[idx] = Tensor(mini_batch_items, device=self.device, dtype=self.dtype)
+            
+            self.index += 1
+            return tuple(mini_batches)
+        else:
+            raise StopIteration
         ### END YOUR SOLUTION
 
 
@@ -124,17 +233,19 @@ class MNISTDataset(Dataset):
         transforms: Optional[List] = None,
     ):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        self.imgs, self.labels = parse_mnist(image_filename, label_filename)
+        self.imgs = self.imgs.reshape(-1, 28, 28, 1)
+        self.transforms = transforms
         ### END YOUR SOLUTION
 
     def __getitem__(self, index) -> object:
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return self.apply_transforms(self.imgs[index]), self.labels[index]
         ### END YOUR SOLUTION
 
     def __len__(self) -> int:
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return len(self.labels)
         ### END YOUR SOLUTION
 
 
@@ -156,7 +267,33 @@ class CIFAR10Dataset(Dataset):
         y - numpy array of labels
         """
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        def unpickle(file):
+            with open(file, 'rb') as fo:
+                data_dict = pickle.load(fo, encoding='bytes')
+            images = data_dict[b'data']
+            _X = np.empty(shape=(10000, 32, 32, 3))
+            _X[:, :32, :32, 0] = images[:, :1024].reshape(-1, 32, 32)/255
+            _X[:, :32, :32, 1] = images[:, 1024:2048].reshape(-1, 32, 32)/255
+            _X[:, :32, :32, 2] = images[:, 2048:].reshape(-1, 32, 32)/255
+            return _X, np.array(data_dict[b'labels']).reshape(-1, 1)
+        X = None
+        y = None
+        if train:
+            for i in range(1, 6):
+                file_name = os.path.join(base_folder, f'data_batch_{i}')
+                _X, _y = unpickle(file_name)
+                if X is None:
+                    X = _X
+                    y = _y
+                else:
+                    X = np.vstack([X, _X])
+                    y = np.vstack([y, _y])
+        else:
+            file_name = os.path.join(base_folder, f'test_batch')
+            X, y = unpickle(file_name)
+        self.X = X
+        self.y = y.reshape(-1,)
+        self.transforms = transforms
         ### END YOUR SOLUTION
 
     def __getitem__(self, index) -> object:
@@ -165,7 +302,12 @@ class CIFAR10Dataset(Dataset):
         Image should be of shape (3, 32, 32)
         """
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        X = np.transpose(self.X[index], axes=(2, 0, 1))
+        y = self.y[index]
+        if self.transforms:
+            X = self.transforms(X)
+
+        return X, y
         ### END YOUR SOLUTION
 
     def __len__(self) -> int:
@@ -173,7 +315,7 @@ class CIFAR10Dataset(Dataset):
         Returns the total number of examples in the dataset
         """
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return len(self.X)
         ### END YOUR SOLUTION
 
 
@@ -205,7 +347,7 @@ class Dictionary(object):
         self.word2idx = {}
         self.idx2word = []
 
-    def add_word(self, word):
+    def add_word(self, word:str):
         """
         Input: word of type str
         If the word is not in the dictionary, adds the word to the dictionary
@@ -213,7 +355,11 @@ class Dictionary(object):
         Returns the word's unique ID.
         """
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        word = word.lower()
+        if not self.word2idx.__contains__(word):
+            self.word2idx[word] = self.__len__()
+        self.idx2word.append(word)
+        return self.word2idx[word]
         ### END YOUR SOLUTION
 
     def __len__(self):
@@ -221,7 +367,7 @@ class Dictionary(object):
         Returns the number of unique words in the dictionary.
         """
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return len(self.word2idx)
         ### END YOUR SOLUTION
 
 
@@ -248,7 +394,20 @@ class Corpus(object):
         ids: List of ids
         """
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        with open(path) as file:
+            lines = file.readlines()
+        line_cnt = 0
+        ids = []
+        for line in lines:
+            line = line.strip()
+            words = line.split(' ')
+            for word in words:
+                ids.append(self.dictionary.add_word(word))
+            ids.append(self.dictionary.add_word('<eos>'))
+            line_cnt += 1
+            if max_lines is not None and line_cnt == max_lines:
+                break
+        return ids
         ### END YOUR SOLUTION
 
 
@@ -269,7 +428,10 @@ def batchify(data, batch_size, device, dtype):
     Returns the data as a numpy array of shape (nbatch, batch_size).
     """
     ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
+    nbatch = len(data)//batch_size
+    in_data = data[:nbatch*batch_size]
+    in_data_np = np.array(in_data).reshape(batch_size, nbatch).transpose((1, 0))
+    return in_data_np
     ### END YOUR SOLUTION
 
 
@@ -293,5 +455,8 @@ def get_batch(batches, i, bptt, device=None, dtype=None):
     target - Tensor of shape (bptt*bs,) with cached data as NDArray
     """
     ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
+    curr_batch = batches[i:i+bptt, :]
+    target_batch = batches[i+1:i+1+bptt, :]
+    target_batch = target_batch.reshape(-1, )
+    return Tensor(curr_batch, device=device, dtype=dtype), Tensor(target_batch, device=device, dtype=dtype)
     ### END YOUR SOLUTION

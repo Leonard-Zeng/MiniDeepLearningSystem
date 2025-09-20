@@ -1,0 +1,4 @@
+/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/CMakeFiles/ndarray_backend_metal.dir
+/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/CMakeFiles/ndarray_backend_cpu.dir

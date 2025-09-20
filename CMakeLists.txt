@@ -1,11 +1,22 @@
+set(CMAKE_C_COMPILER "/usr/bin/gcc")
+set(CMAKE_CXX_COMPILER "/usr/bin/c++")
+
 cmake_minimum_required(VERSION 3.2)
 project(needle C CXX)
 
 # find correct version of Python
 execute_process(COMMAND python3-config --prefix
   OUTPUT_VARIABLE Python_ROOT_DIR)
-find_package(Python COMPONENTS Development Interpreter REQUIRED)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # added
+  set(CMAKE_CXX_STANDARD 17)
+  set(Python3_EXECUTABLE "/Users/zhengzeng/miniforge3/envs/cmu_dlscourse/bin/python")
+  find_package(Python3 COMPONENTS Development Interpreter REQUIRED) # or whatever python version is installed in conda env
+else()
+  set(Python_EXECUTABLE "/Users/zhengzeng/miniforge3/envs/cmu_dlscourse/bin/python")
+  find_package(Python COMPONENTS Development Interpreter REQUIRED)
+endif()
 include_directories(${Python_INCLUDE_DIRS})
+#execute_process(COMMAND ${Python_EXECUTABLE} -m pip install -r requirements.txt)
 
 # find pybind
 execute_process(COMMAND python3 -m pybind11 --cmakedir
@@ -14,13 +25,22 @@ execute_process(COMMAND python3 -m pybind11 --cmakedir
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 find_package(pybind11 PATHS ${__pybind_path})
 
-
-if(NOT MSVC)
-  set(CMAKE_CXX_FLAGS "-std=c++11 -O2 -march=native ${CMAKE_CXX_FLAGS}")
-  set(CMAKE_CUDA_STANDARD 14)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # added
+  if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "-std=c++17 -O2 ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CUDA_STANDARD 14)
+  else()
+    set(CMAKE_CXX_FLAGS "/std:c++17 -O2 ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CUDA_STANDARD 14)
+  endif()
 else()
-  set(CMAKE_CXX_FLAGS "/std:c++11 -O2 -march=native ${CMAKE_CXX_FLAGS}")
-  set(CMAKE_CUDA_STANDARD 14)
+  if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "-std=c++11 -O2 -march=native ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CUDA_STANDARD 14)
+  else()
+    set(CMAKE_CXX_FLAGS "/std:c++11 -O2 -march=native ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CUDA_STANDARD 14)
+  endif()
 endif()
 
 include_directories(SYSTEM ${pybind11_INCLUDE_DIRS})
@@ -32,6 +52,8 @@ list(APPEND LINKER_LIBS ${pybind11_LIBRARIES})
 ###################
 add_library(ndarray_backend_cpu MODULE src/ndarray_backend_cpu.cc)
 target_link_libraries(ndarray_backend_cpu PUBLIC ${LINKER_LIBS})
+
+find_package(pybind11 REQUIRED)
 pybind11_extension(ndarray_backend_cpu)
 pybind11_strip(ndarray_backend_cpu)
 
@@ -47,6 +69,26 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_property(TARGET ndarray_backend_cpu PROPERTY LINK_OPTIONS -undefined dynamic_lookup)
 endif()
 
+
+#####################
+### METAL BACKEND ###
+#####################
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  include_directories(src/metal-cpp)
+  file(GLOB_RECURSE METAL_SOURCE "src/metal-cpp/*.hpp")
+  add_library(ndarray_backend_metal MODULE src/ndarray_backend_metal.cpp ${METAL_SOURCE})
+  target_link_libraries(ndarray_backend_metal PUBLIC ${LINKER_LIBS})
+  pybind11_extension(ndarray_backend_metal)
+  pybind11_strip(ndarray_backend_metal)
+
+  # directly output to ffi folder
+  set_target_properties(ndarray_backend_metal
+          PROPERTIES
+          LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/python/needle/backend_ndarray
+          CXX_VISIBILITY_PRESET "hidden"
+          )
+  set_property(TARGET ndarray_backend_metal PROPERTY LINK_OPTIONS -undefined dynamic_lookup)
+endif()
 
 
 ####################
@@ -84,4 +126,3 @@ if(CUDA_FOUND)
 )
 
 endif()
-

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="needle"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\opt\homebrew\;CMake Files\..\..\..\..\..\opt\homebrew\lib\;CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\;CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\;CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\;CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\;CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\;CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\pybind11\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ndarray_backend_metal">
+				<Option output="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/python/needle/backend_ndarray/ndarray_backend_metal.cpython-39-darwin.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp"/>
+					<Add directory="/opt/homebrew/lib/python3.10/site-packages/pybind11/include"/>
+					<Add directory="/Users/zhengzeng/miniforge3/envs/cmu_dlscourse/include/python3.9"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.3/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 ndarray_backend_metal"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ndarray_backend_metal/fast">
+				<Option output="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/python/needle/backend_ndarray/ndarray_backend_metal.cpython-39-darwin.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp"/>
+					<Add directory="/opt/homebrew/lib/python3.10/site-packages/pybind11/include"/>
+					<Add directory="/Users/zhengzeng/miniforge3/envs/cmu_dlscourse/include/python3.9"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.3/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 ndarray_backend_metal/fast"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ndarray_backend_cpu">
+				<Option output="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/python/needle/backend_ndarray/ndarray_backend_cpu.cpython-39-darwin.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp"/>
+					<Add directory="/opt/homebrew/lib/python3.10/site-packages/pybind11/include"/>
+					<Add directory="/Users/zhengzeng/miniforge3/envs/cmu_dlscourse/include/python3.9"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.3/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 ndarray_backend_cpu"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ndarray_backend_cpu/fast">
+				<Option output="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/python/needle/backend_ndarray/ndarray_backend_cpu.cpython-39-darwin.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp"/>
+					<Add directory="/opt/homebrew/lib/python3.10/site-packages/pybind11/include"/>
+					<Add directory="/Users/zhengzeng/miniforge3/envs/cmu_dlscourse/include/python3.9"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.3/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 ndarray_backend_cpu/fast"/>
+					<CompileFile command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j10 -f &quot;/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/Foundation.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSArray.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSAutoreleasePool.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSBundle.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSData.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSDate.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSDefines.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSDictionary.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSEnumerator.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSError.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSLock.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSNotification.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSNumber.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSObjCRuntime.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSObject.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSPrivate.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSProcessInfo.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSRange.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSString.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSTypes.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Foundation/NSURL.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLAccelerationStructure.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLAccelerationStructureCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLAccelerationStructureTypes.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLArgument.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLArgumentEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLBinaryArchive.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLBlitCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLBlitPass.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLBuffer.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLCaptureManager.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLCaptureScope.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLCommandBuffer.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLCommandQueue.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLComputeCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLComputePass.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLComputePipeline.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLCounters.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLDefines.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLDepthStencil.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLDevice.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLDrawable.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLDynamicLibrary.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLEvent.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLFence.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLFunctionConstantValues.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLFunctionDescriptor.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLFunctionHandle.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLFunctionLog.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLFunctionStitching.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLHeaderBridge.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLHeap.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLIndirectCommandBuffer.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLIndirectCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLIntersectionFunctionTable.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLLibrary.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLLinkedFunctions.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLParallelRenderCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLPipeline.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLPixelFormat.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLPrivate.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLRasterizationRate.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLRenderCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLRenderPass.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLRenderPipeline.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLResource.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLResourceStateCommandEncoder.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLResourceStatePass.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLSampler.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLStageInputOutputDescriptor.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLTexture.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLTypes.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLVertexDescriptor.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/MTLVisibleFunctionTable.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/Metal/Metal.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/QuartzCore/CADefines.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/QuartzCore/CAMetalDrawable.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/QuartzCore/CAPrivate.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/metal-cpp/QuartzCore/QuartzCore.hpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/ndarray_backend_cpu.cc">
+			<Option target="ndarray_backend_cpu"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/src/ndarray_backend_metal.cpp">
+			<Option target="ndarray_backend_metal"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/../../../../../opt/homebrew/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Common.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\pybind11\"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/../../../../../opt/homebrew/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\pybind11\"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/../../../../../opt/homebrew/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11ConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\pybind11\"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/../../../../../opt/homebrew/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11NewTools.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\pybind11\"/>
+		</Unit>
+		<Unit filename="/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/../../../../../opt/homebrew/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\python3.10\site-packages\pybind11\share\cmake\pybind11\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

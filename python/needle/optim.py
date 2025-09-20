@@ -24,7 +24,15 @@ class SGD(Optimizer):
 
     def step(self):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        for idx in range(len(self.params)):
+            if self.params[idx].requires_grad and self.params[idx].grad is not None:
+                gt = self.params[idx].grad.data - self.weight_decay * self.params[idx].data
+                if self.u.__contains__(idx):
+                    self.u[idx] = self.momentum * self.u[idx] + (1-self.momentum) * gt
+                else:
+                    self.u[idx] = (1-self.momentum) * gt
+                self.params[idx].data = (1 - self.lr * self.weight_decay) * self.params[idx].data - \
+                    ndl.Tensor(self.lr * self.u[idx], dtype=self.params[idx].dtype).data
         ### END YOUR SOLUTION
 
     def clip_grad_norm(self, max_norm=0.25):
@@ -61,5 +69,17 @@ class Adam(Optimizer):
 
     def step(self):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        self.t += 1
+        for idx in range(len(self.params)):
+            if self.params[idx].requires_grad and self.params[idx].grad is not None:
+                gt = self.params[idx].grad.data
+                if self.t==1:
+                    self.m[idx] = 0
+                    self.v[idx] = 0
+                self.m[idx] = self.beta1 * self.m[idx] + (1-self.beta1) * gt
+                self.v[idx] = self.beta2 * self.v[idx] + (1-self.beta2) * (gt * gt)
+                mu = self.m[idx] / (1 - self.beta1**self.t)
+                v = self.v[idx] / (1 - self.beta2**self.t)
+                self.params[idx].data = self.params[idx].data - \
+                    ndl.Tensor(self.lr*mu/(v**0.5+self.eps), dtype=self.params[idx].dtype).data
         ### END YOUR SOLUTION

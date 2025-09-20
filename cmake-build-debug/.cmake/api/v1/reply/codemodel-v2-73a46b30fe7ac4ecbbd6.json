@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "needle",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ndarray_backend_cpu::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ndarray_backend_cpu-Debug-e8e9d09b87aa74897481.json",
+					"name" : "ndarray_backend_cpu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ndarray_backend_metal::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ndarray_backend_metal-Debug-417122a17d69ea11fb79.json",
+					"name" : "ndarray_backend_metal",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug",
+		"source" : "/Users/zhengzeng/VSCode/CMU_DLS_Course/needle"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

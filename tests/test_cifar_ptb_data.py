@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append('./python')
 import itertools
 import numpy as np
@@ -8,15 +9,19 @@ import mugrade
 import needle as ndl
 from needle import backend_ndarray as nd
 
-
 np.random.seed(2)
 
-
-_DEVICES = [ndl.cpu(), pytest.param(ndl.cuda(),
-    marks=pytest.mark.skipif(not ndl.cuda().enabled(), reason="No GPU"))]
-
+_DEVICES = [
+    ndl.cpu(),
+    pytest.param(ndl.cuda(),
+                 marks=pytest.mark.skipif(not ndl.cuda().enabled(), reason="No GPU")),
+    pytest.param(ndl.metal(),
+                 marks=pytest.mark.skipif(not ndl.metal().enabled(), reason="No GPU")),
+]
 
 TRAIN = [True, False]
+
+
 @pytest.mark.parametrize("train", TRAIN)
 def test_cifar10_dataset(train):
     dataset = ndl.data.CIFAR10Dataset("data/cifar-10-batches-py", train=train)
@@ -25,16 +30,18 @@ def test_cifar10_dataset(train):
     else:
         assert len(dataset) == 10000
     example = dataset[np.random.randint(len(dataset))]
-    assert(isinstance(example, tuple))
+    assert (isinstance(example, tuple))
     X, y = example
     assert isinstance(X, np.ndarray)
     assert X.shape == (3, 32, 32)
 
 
 BATCH_SIZES = [1, 15]
+
+
 @pytest.mark.parametrize("batch_size", BATCH_SIZES)
 @pytest.mark.parametrize("train", TRAIN)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_cifar10_loader(batch_size, train, device):
     cifar10_train_dataset = ndl.data.CIFAR10Dataset("data/cifar-10-batches-py", train=True)
     train_loader = ndl.data.DataLoader(cifar10_train_dataset, batch_size)
@@ -47,10 +54,12 @@ def test_cifar10_loader(batch_size, train, device):
 
 
 BPTT = [3, 32]
+
+
 @pytest.mark.parametrize("batch_size", BATCH_SIZES)
 @pytest.mark.parametrize("bptt", BPTT)
 @pytest.mark.parametrize("train", TRAIN)
-@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])
+@pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda", "metal"])
 def test_ptb_dataset(batch_size, bptt, train, device):
     # TODO update with more tests?
     corpus = ndl.data.Corpus("data/ptb")
@@ -74,13 +83,14 @@ def test_ptb_dataset(batch_size, bptt, train, device):
 TEST_BATCH_SIZES = [3, 5]
 TEST_BPTT = [6, 10]
 
+
 def mugrade_submit(x):
     if isinstance(x, np.ndarray):
         x = x.flatten()[:128]
-        #print(x)
+        # print(x)
         mugrade.submit(x)
     else:
-        #print(x)
+        # print(x)
         mugrade.submit(x)
 
 

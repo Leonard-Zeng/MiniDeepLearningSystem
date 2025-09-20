@@ -1,0 +1,7 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/zhengzeng/VSCode/CMU_DLS_Course/needle
+-- Found pybind11: /opt/homebrew/lib/python3.10/site-packages/pybind11/include (found version "2.10.4")
+CUDA_TOOLKIT_ROOT_DIR not found or specified
+-- Could NOT find CUDA (missing: CUDA_TOOLKIT_ROOT_DIR CUDA_NVCC_EXECUTABLE CUDA_INCLUDE_DIRS CUDA_CUDART_LIBRARY) 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/zhengzeng/VSCode/CMU_DLS_Course/needle/cmake-build-debug
